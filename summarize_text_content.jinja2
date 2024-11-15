@@ -1,0 +1,23 @@
+system:
+user:
+[
+{% for id, sentence in sentences %}
+  {
+    "Sentence_ID": "{{ id }}",
+    "Sentence": "{{ sentence | replace('"', '\\"') }}",
+    "Prompt": "Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).",
+    "User_Comment": "{{ sentence | replace('"', '\\"') }}",
+    "LLM_Sentiment_Label": "sentiment label here" (integer value only, no extra text)
+  }{% if not loop.last %},{% endif %}
+{% endfor %}
+]
+assistant: 
+Please output the results in the following format strictly without any extra comments. The sentiment categories are Positive (1), Neutral (0), Negative (-1), please only output the integer value of the categories, without text.
+[
+{% for id, sentence in sentences %}
+  {
+    "Sentence_ID": "{{ id }}",
+    "LLM_Sentiment_Label": "sentiment label here" (integer value only, no extra text)
+  }{% if not loop.last %},{% endif %}
+{% endfor %}
+]

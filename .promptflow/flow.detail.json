@@ -1,0 +1,1278 @@
+{
+  "flow_runs": [
+    {
+      "run_id": "5c222b2c-4b04-4c7c-9fe1-5a34853260dd_0",
+      "status": "Completed",
+      "error": null,
+      "inputs": {
+        "dummy_input": "Covid Sentiment Analysis GPT4o"
+      },
+      "output": {
+        "results": {
+          "update_status": "Success"
+        }
+      },
+      "metrics": null,
+      "request": null,
+      "parent_run_id": "5c222b2c-4b04-4c7c-9fe1-5a34853260dd",
+      "root_run_id": "5c222b2c-4b04-4c7c-9fe1-5a34853260dd",
+      "source_run_id": null,
+      "flow_id": "web_classification",
+      "start_time": "2024-11-15T19:02:51.399665Z",
+      "end_time": "2024-11-15T19:02:58.406602Z",
+      "index": 0,
+      "api_calls": [
+        {
+          "name": "flow",
+          "node_name": "flow",
+          "type": "Flow",
+          "start_time": 1731697371.399665,
+          "end_time": 1731697378.406602,
+          "children": [
+            {
+              "name": "fetch_sentences",
+              "type": "Function",
+              "inputs": {
+                "dummy_input": "Covid Sentiment Analysis GPT4o"
+              },
+              "output": {
+                "sentences": [
+                  [
+                    976,
+                    "I am also still forced to work."
+                  ],
+                  [
+                    977,
+                    "Like millions of folks, to circulate about in your home basically 24/7 is tough mentally and emotionally."
+                  ],
+                  [
+                    978,
+                    "We also have time to conference together as a group and hang out a bit that way, especially being so far apart."
+                  ],
+                  [
+                    979,
+                    "Trying to stay healthy, supplementing with vitamins, and getting more excercise."
+                  ],
+                  [
+                    980,
+                    "In this time of crisis I have noticed that we have enough time to give to our family members, friends and think more about the well being of our closed."
+                  ],
+                  [
+                    981,
+                    "Lost 15% of my income due to cancellation of an annual event at which I have worked for nearly 25 years."
+                  ],
+                  [
+                    982,
+                    "Working from home, using masks every time I go out, specially for basics shopping, pharmacy."
+                  ],
+                  [
+                    983,
+                    "It is horrible to have to stay home and not have a social life"
+                  ],
+                  [
+                    984,
+                    "I am working from home - my husband has been let go from all of his adjunct teaching jobs and is unemployed."
+                  ],
+                  [
+                    985,
+                    "I was constantly on the go and now realize how fortunate i was to travel as much but that I also have a lot to make me happy right here."
+                  ],
+                  [
+                    986,
+                    "This is instead of my 3x/wk exercise class at the senior center."
+                  ],
+                  [
+                    987,
+                    "I'm speaking with my long distance relatives more, and when things get too dangerous for even grocery trips, we've got about three months worth of dry goods, and got a victory garden going."
+                  ],
+                  [
+                    988,
+                    "Emotionally I seem to be dealing with it just fine, but with a lot of concern."
+                  ],
+                  [
+                    989,
+                    "Stress of working a full time job as well as teaching my young children from home."
+                  ],
+                  [
+                    990,
+                    "It's lovely spending even more time with family."
+                  ],
+                  [
+                    991,
+                    "Spending more quality time with pets; spending more time in remote visits with family who are geographically distant; working remotely means less commute time; eating better because access to junk food is reduced."
+                  ],
+                  [
+                    992,
+                    "This is hard because I live alone."
+                  ],
+                  [
+                    993,
+                    "But I have family support so Im not that bad."
+                  ],
+                  [
+                    994,
+                    "On-line shopping for perishables is nearly impossible - delivery dates are days away or nonexistent, and orders show up 1/4 fulfilled."
+                  ],
+                  [
+                    995,
+                    "She is 74, quarantined at home and I am nervous for her."
+                  ],
+                  [
+                    996,
+                    "But before that, I cancelled social events, called before going to the doctor, and avoided social gatherings."
+                  ],
+                  [
+                    997,
+                    "I hope humanity learns the lesson, set other priorities."
+                  ],
+                  [
+                    998,
+                    "I'm helping connect people to resources."
+                  ],
+                  [
+                    999,
+                    "I'm obviously prevented from doing certain things."
+                  ],
+                  [
+                    1000,
+                    "As a retired school librarian, my finances are okay, as of now."
+                  ]
+                ],
+                "update_status": "Success"
+              },
+              "start_time": 1731697371.403433,
+              "end_time": 1731697371.487091,
+              "error": null,
+              "children": [],
+              "node_name": "SQL_Connection_Input",
+              "parent_id": "",
+              "id": "28e798ca-3894-4807-bc46-94700232c4e0",
+              "function": "fetch_sentences",
+              "system_metrics": {}
+            },
+            {
+              "name": "AzureOpenAI.chat",
+              "type": "Function",
+              "inputs": {
+                "prompt": "system:\nuser:\n[\n{% for id, sentence in sentences %}\n  {\n    \"Sentence_ID\": \"{{ id }}\",\n    \"Sentence\": \"{{ sentence | replace('\"', '\\\\\"') }}\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"{{ sentence | replace('\"', '\\\\\"') }}\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  }{% if not loop.last %},{% endif %}\n{% endfor %}\n]\nassistant: \nPlease output the results in the following format strictly without any extra comments. The sentiment categories are Positive (1), Neutral (0), Negative (-1), please only output the integer value of the categories, without text.\n[\n{% for id, sentence in sentences %}\n  {\n    \"Sentence_ID\": \"{{ id }}\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  }{% if not loop.last %},{% endif %}\n{% endfor %}\n]",
+                "temperature": 0.0,
+                "top_p": 0.3,
+                "stop": [],
+                "max_tokens": 1000,
+                "response_format": {
+                  "type": "text"
+                },
+                "presence_penalty": 0.3,
+                "frequency_penalty": 0.1,
+                "deployment_name": "gpt-4o",
+                "sentences": [
+                  [
+                    976,
+                    "I am also still forced to work."
+                  ],
+                  [
+                    977,
+                    "Like millions of folks, to circulate about in your home basically 24/7 is tough mentally and emotionally."
+                  ],
+                  [
+                    978,
+                    "We also have time to conference together as a group and hang out a bit that way, especially being so far apart."
+                  ],
+                  [
+                    979,
+                    "Trying to stay healthy, supplementing with vitamins, and getting more excercise."
+                  ],
+                  [
+                    980,
+                    "In this time of crisis I have noticed that we have enough time to give to our family members, friends and think more about the well being of our closed."
+                  ],
+                  [
+                    981,
+                    "Lost 15% of my income due to cancellation of an annual event at which I have worked for nearly 25 years."
+                  ],
+                  [
+                    982,
+                    "Working from home, using masks every time I go out, specially for basics shopping, pharmacy."
+                  ],
+                  [
+                    983,
+                    "It is horrible to have to stay home and not have a social life"
+                  ],
+                  [
+                    984,
+                    "I am working from home - my husband has been let go from all of his adjunct teaching jobs and is unemployed."
+                  ],
+                  [
+                    985,
+                    "I was constantly on the go and now realize how fortunate i was to travel as much but that I also have a lot to make me happy right here."
+                  ],
+                  [
+                    986,
+                    "This is instead of my 3x/wk exercise class at the senior center."
+                  ],
+                  [
+                    987,
+                    "I'm speaking with my long distance relatives more, and when things get too dangerous for even grocery trips, we've got about three months worth of dry goods, and got a victory garden going."
+                  ],
+                  [
+                    988,
+                    "Emotionally I seem to be dealing with it just fine, but with a lot of concern."
+                  ],
+                  [
+                    989,
+                    "Stress of working a full time job as well as teaching my young children from home."
+                  ],
+                  [
+                    990,
+                    "It's lovely spending even more time with family."
+                  ],
+                  [
+                    991,
+                    "Spending more quality time with pets; spending more time in remote visits with family who are geographically distant; working remotely means less commute time; eating better because access to junk food is reduced."
+                  ],
+                  [
+                    992,
+                    "This is hard because I live alone."
+                  ],
+                  [
+                    993,
+                    "But I have family support so Im not that bad."
+                  ],
+                  [
+                    994,
+                    "On-line shopping for perishables is nearly impossible - delivery dates are days away or nonexistent, and orders show up 1/4 fulfilled."
+                  ],
+                  [
+                    995,
+                    "She is 74, quarantined at home and I am nervous for her."
+                  ],
+                  [
+                    996,
+                    "But before that, I cancelled social events, called before going to the doctor, and avoided social gatherings."
+                  ],
+                  [
+                    997,
+                    "I hope humanity learns the lesson, set other priorities."
+                  ],
+                  [
+                    998,
+                    "I'm helping connect people to resources."
+                  ],
+                  [
+                    999,
+                    "I'm obviously prevented from doing certain things."
+                  ],
+                  [
+                    1000,
+                    "As a retired school librarian, my finances are okay, as of now."
+                  ]
+                ]
+              },
+              "output": "[\n  {\n    \"Sentence_ID\": \"976\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"977\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"978\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"979\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"980\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"981\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"982\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"983\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"984\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"985\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"986\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"987\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"988\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"989\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"990\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"991\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"992\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"993\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"994\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"995\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"996\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"997\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"998\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"999\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"1000\",\n    \"LLM_Sentiment_Label\": 0\n  }]",
+              "start_time": 1731697371.491073,
+              "end_time": 1731697378.254007,
+              "error": null,
+              "children": [
+                {
+                  "name": "openai_chat",
+                  "type": "LLM",
+                  "inputs": {
+                    "model": "gpt-4o",
+                    "messages": [
+                      {
+                        "role": "system",
+                        "content": ""
+                      },
+                      {
+                        "role": "user",
+                        "content": "[\n  {\n    \"Sentence_ID\": \"976\",\n    \"Sentence\": \"I am also still forced to work.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"I am also still forced to work.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"977\",\n    \"Sentence\": \"Like millions of folks, to circulate about in your home basically 24/7 is tough mentally and emotionally.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"Like millions of folks, to circulate about in your home basically 24/7 is tough mentally and emotionally.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"978\",\n    \"Sentence\": \"We also have time to conference together as a group and hang out a bit that way, especially being so far apart.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"We also have time to conference together as a group and hang out a bit that way, especially being so far apart.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"979\",\n    \"Sentence\": \"Trying to stay healthy, supplementing with vitamins, and getting more excercise.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"Trying to stay healthy, supplementing with vitamins, and getting more excercise.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"980\",\n    \"Sentence\": \"In this time of crisis I have noticed that we have enough time to give to our family members, friends and think more about the well being of our closed.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"In this time of crisis I have noticed that we have enough time to give to our family members, friends and think more about the well being of our closed.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"981\",\n    \"Sentence\": \"Lost 15% of my income due to cancellation of an annual event at which I have worked for nearly 25 years.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"Lost 15% of my income due to cancellation of an annual event at which I have worked for nearly 25 years.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"982\",\n    \"Sentence\": \"Working from home, using masks every time I go out, specially for basics shopping, pharmacy.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"Working from home, using masks every time I go out, specially for basics shopping, pharmacy.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"983\",\n    \"Sentence\": \"It is horrible to have to stay home and not have a social life\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"It is horrible to have to stay home and not have a social life\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"984\",\n    \"Sentence\": \"I am working from home - my husband has been let go from all of his adjunct teaching jobs and is unemployed.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"I am working from home - my husband has been let go from all of his adjunct teaching jobs and is unemployed.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"985\",\n    \"Sentence\": \"I was constantly on the go and now realize how fortunate i was to travel as much but that I also have a lot to make me happy right here.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"I was constantly on the go and now realize how fortunate i was to travel as much but that I also have a lot to make me happy right here.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"986\",\n    \"Sentence\": \"This is instead of my 3x/wk exercise class at the senior center.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"This is instead of my 3x/wk exercise class at the senior center.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"987\",\n    \"Sentence\": \"I'm speaking with my long distance relatives more, and when things get too dangerous for even grocery trips, we've got about three months worth of dry goods, and got a victory garden going.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"I'm speaking with my long distance relatives more, and when things get too dangerous for even grocery trips, we've got about three months worth of dry goods, and got a victory garden going.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"988\",\n    \"Sentence\": \"Emotionally I seem to be dealing with it just fine, but with a lot of concern.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"Emotionally I seem to be dealing with it just fine, but with a lot of concern.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"989\",\n    \"Sentence\": \"Stress of working a full time job as well as teaching my young children from home.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"Stress of working a full time job as well as teaching my young children from home.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"990\",\n    \"Sentence\": \"It's lovely spending even more time with family.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"It's lovely spending even more time with family.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"991\",\n    \"Sentence\": \"Spending more quality time with pets; spending more time in remote visits with family who are geographically distant; working remotely means less commute time; eating better because access to junk food is reduced.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"Spending more quality time with pets; spending more time in remote visits with family who are geographically distant; working remotely means less commute time; eating better because access to junk food is reduced.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"992\",\n    \"Sentence\": \"This is hard because I live alone.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"This is hard because I live alone.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"993\",\n    \"Sentence\": \"But I have family support so Im not that bad.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"But I have family support so Im not that bad.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"994\",\n    \"Sentence\": \"On-line shopping for perishables is nearly impossible - delivery dates are days away or nonexistent, and orders show up 1/4 fulfilled.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"On-line shopping for perishables is nearly impossible - delivery dates are days away or nonexistent, and orders show up 1/4 fulfilled.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"995\",\n    \"Sentence\": \"She is 74, quarantined at home and I am nervous for her.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"She is 74, quarantined at home and I am nervous for her.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"996\",\n    \"Sentence\": \"But before that, I cancelled social events, called before going to the doctor, and avoided social gatherings.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"But before that, I cancelled social events, called before going to the doctor, and avoided social gatherings.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"997\",\n    \"Sentence\": \"I hope humanity learns the lesson, set other priorities.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"I hope humanity learns the lesson, set other priorities.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"998\",\n    \"Sentence\": \"I'm helping connect people to resources.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"I'm helping connect people to resources.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"999\",\n    \"Sentence\": \"I'm obviously prevented from doing certain things.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"I'm obviously prevented from doing certain things.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"1000\",\n    \"Sentence\": \"As a retired school librarian, my finances are okay, as of now.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"As a retired school librarian, my finances are okay, as of now.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  }]"
+                      },
+                      {
+                        "role": "assistant",
+                        "content": "Please output the results in the following format strictly without any extra comments. The sentiment categories are Positive (1), Neutral (0), Negative (-1), please only output the integer value of the categories, without text.\n[\n  {\n    \"Sentence_ID\": \"976\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"977\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"978\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"979\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"980\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"981\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"982\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"983\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"984\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"985\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"986\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"987\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"988\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"989\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"990\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"991\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"992\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"993\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"994\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"995\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"996\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"997\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"998\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"999\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"1000\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  }]"
+                      }
+                    ],
+                    "temperature": 0.0,
+                    "top_p": 0.3,
+                    "n": 1,
+                    "stream": false,
+                    "presence_penalty": 0.3,
+                    "frequency_penalty": 0.1,
+                    "user": "",
+                    "max_tokens": 1000,
+                    "response_format": {
+                      "type": "text"
+                    }
+                  },
+                  "output": {
+                    "id": "chatcmpl-ATvshr4Ks8OsKcubuwK4OpUhHmO3j",
+                    "choices": [
+                      {
+                        "finish_reason": "stop",
+                        "index": 0,
+                        "logprobs": null,
+                        "message": {
+                          "content": "[\n  {\n    \"Sentence_ID\": \"976\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"977\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"978\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"979\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"980\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"981\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"982\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"983\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"984\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"985\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"986\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"987\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"988\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"989\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"990\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"991\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"992\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"993\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"994\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"995\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"996\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"997\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"998\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"999\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"1000\",\n    \"LLM_Sentiment_Label\": 0\n  }]",
+                          "role": "assistant",
+                          "function_call": null,
+                          "tool_calls": null
+                        },
+                        "content_filter_results": {
+                          "hate": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "protected_material_code": {
+                            "filtered": false,
+                            "detected": false
+                          },
+                          "protected_material_text": {
+                            "filtered": false,
+                            "detected": false
+                          },
+                          "self_harm": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "sexual": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "violence": {
+                            "filtered": false,
+                            "severity": "safe"
+                          }
+                        }
+                      }
+                    ],
+                    "created": 1731697371,
+                    "model": "gpt-4o-2024-05-13",
+                    "object": "chat.completion",
+                    "system_fingerprint": "fp_04751d0b65",
+                    "usage": {
+                      "completion_tokens": 602,
+                      "prompt_tokens": 4416,
+                      "total_tokens": 5018
+                    },
+                    "prompt_filter_results": [
+                      {
+                        "prompt_index": 0,
+                        "content_filter_results": {
+                          "hate": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "jailbreak": {
+                            "filtered": false,
+                            "detected": false
+                          },
+                          "self_harm": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "sexual": {
+                            "filtered": false,
+                            "severity": "safe"
+                          },
+                          "violence": {
+                            "filtered": false,
+                            "severity": "safe"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "start_time": 1731697371.51079,
+                  "end_time": 1731697378.253609,
+                  "error": null,
+                  "children": [],
+                  "node_name": null,
+                  "parent_id": "8adc8b1b-e895-4bef-9ef4-3fb7a5606dd6",
+                  "id": "5e19d20c-743f-4980-a75c-82b91ed08b07",
+                  "function": "openai.resources.chat.completions.Completions.create",
+                  "system_metrics": {
+                    "completion_tokens": 602,
+                    "prompt_tokens": 4416,
+                    "total_tokens": 5018
+                  }
+                }
+              ],
+              "node_name": "summarize_text_content",
+              "parent_id": "",
+              "id": "8adc8b1b-e895-4bef-9ef4-3fb7a5606dd6",
+              "function": "AzureOpenAI.chat",
+              "system_metrics": {
+                "completion_tokens": 602,
+                "prompt_tokens": 4416,
+                "total_tokens": 5018
+              }
+            },
+            {
+              "name": "update_llm_sentiment_labels",
+              "type": "Function",
+              "inputs": {
+                "data": "[\n  {\n    \"Sentence_ID\": \"976\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"977\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"978\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"979\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"980\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"981\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"982\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"983\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"984\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"985\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"986\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"987\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"988\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"989\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"990\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"991\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"992\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"993\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"994\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"995\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"996\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"997\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"998\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"999\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"1000\",\n    \"LLM_Sentiment_Label\": 0\n  }]"
+              },
+              "output": {
+                "update_status": "Success"
+              },
+              "start_time": 1731697378.260476,
+              "end_time": 1731697378.405023,
+              "error": null,
+              "children": [],
+              "node_name": "output_results_to_mysql",
+              "parent_id": "",
+              "id": "bea402fb-6c1e-4260-ad2a-7b3ecc44b5ef",
+              "function": "update_llm_sentiment_labels",
+              "system_metrics": {}
+            }
+          ],
+          "system_metrics": {
+            "duration": 7.006937,
+            "prompt_tokens": 4416,
+            "completion_tokens": 602,
+            "total_tokens": 5018
+          },
+          "inputs": {
+            "dummy_input": "Covid Sentiment Analysis GPT4o"
+          },
+          "output": {
+            "results": {
+              "update_status": "Success"
+            }
+          },
+          "error": null
+        }
+      ],
+      "name": "",
+      "description": "",
+      "tags": null,
+      "system_metrics": {
+        "duration": 7.006937,
+        "prompt_tokens": 4416,
+        "completion_tokens": 602,
+        "total_tokens": 5018
+      },
+      "result": {
+        "results": {
+          "update_status": "Success"
+        }
+      },
+      "upload_metrics": false,
+      "otel_trace_id": "0x64aedc62b57c922c626eb4e396e4a346",
+      "message_format": "basic"
+    }
+  ],
+  "node_runs": [
+    {
+      "node": "SQL_Connection_Input",
+      "flow_run_id": "5c222b2c-4b04-4c7c-9fe1-5a34853260dd",
+      "run_id": "5c222b2c-4b04-4c7c-9fe1-5a34853260dd_SQL_Connection_Input_0",
+      "status": "Completed",
+      "inputs": {
+        "dummy_input": "Covid Sentiment Analysis GPT4o"
+      },
+      "output": {
+        "sentences": [
+          [
+            976,
+            "I am also still forced to work."
+          ],
+          [
+            977,
+            "Like millions of folks, to circulate about in your home basically 24/7 is tough mentally and emotionally."
+          ],
+          [
+            978,
+            "We also have time to conference together as a group and hang out a bit that way, especially being so far apart."
+          ],
+          [
+            979,
+            "Trying to stay healthy, supplementing with vitamins, and getting more excercise."
+          ],
+          [
+            980,
+            "In this time of crisis I have noticed that we have enough time to give to our family members, friends and think more about the well being of our closed."
+          ],
+          [
+            981,
+            "Lost 15% of my income due to cancellation of an annual event at which I have worked for nearly 25 years."
+          ],
+          [
+            982,
+            "Working from home, using masks every time I go out, specially for basics shopping, pharmacy."
+          ],
+          [
+            983,
+            "It is horrible to have to stay home and not have a social life"
+          ],
+          [
+            984,
+            "I am working from home - my husband has been let go from all of his adjunct teaching jobs and is unemployed."
+          ],
+          [
+            985,
+            "I was constantly on the go and now realize how fortunate i was to travel as much but that I also have a lot to make me happy right here."
+          ],
+          [
+            986,
+            "This is instead of my 3x/wk exercise class at the senior center."
+          ],
+          [
+            987,
+            "I'm speaking with my long distance relatives more, and when things get too dangerous for even grocery trips, we've got about three months worth of dry goods, and got a victory garden going."
+          ],
+          [
+            988,
+            "Emotionally I seem to be dealing with it just fine, but with a lot of concern."
+          ],
+          [
+            989,
+            "Stress of working a full time job as well as teaching my young children from home."
+          ],
+          [
+            990,
+            "It's lovely spending even more time with family."
+          ],
+          [
+            991,
+            "Spending more quality time with pets; spending more time in remote visits with family who are geographically distant; working remotely means less commute time; eating better because access to junk food is reduced."
+          ],
+          [
+            992,
+            "This is hard because I live alone."
+          ],
+          [
+            993,
+            "But I have family support so Im not that bad."
+          ],
+          [
+            994,
+            "On-line shopping for perishables is nearly impossible - delivery dates are days away or nonexistent, and orders show up 1/4 fulfilled."
+          ],
+          [
+            995,
+            "She is 74, quarantined at home and I am nervous for her."
+          ],
+          [
+            996,
+            "But before that, I cancelled social events, called before going to the doctor, and avoided social gatherings."
+          ],
+          [
+            997,
+            "I hope humanity learns the lesson, set other priorities."
+          ],
+          [
+            998,
+            "I'm helping connect people to resources."
+          ],
+          [
+            999,
+            "I'm obviously prevented from doing certain things."
+          ],
+          [
+            1000,
+            "As a retired school librarian, my finances are okay, as of now."
+          ]
+        ],
+        "update_status": "Success"
+      },
+      "metrics": null,
+      "error": null,
+      "parent_run_id": "5c222b2c-4b04-4c7c-9fe1-5a34853260dd_0",
+      "start_time": "2024-11-15T19:02:51.403258Z",
+      "end_time": "2024-11-15T19:02:51.489292Z",
+      "index": 0,
+      "api_calls": [
+        {
+          "name": "fetch_sentences",
+          "type": "Function",
+          "inputs": {
+            "dummy_input": "Covid Sentiment Analysis GPT4o"
+          },
+          "output": {
+            "sentences": [
+              [
+                976,
+                "I am also still forced to work."
+              ],
+              [
+                977,
+                "Like millions of folks, to circulate about in your home basically 24/7 is tough mentally and emotionally."
+              ],
+              [
+                978,
+                "We also have time to conference together as a group and hang out a bit that way, especially being so far apart."
+              ],
+              [
+                979,
+                "Trying to stay healthy, supplementing with vitamins, and getting more excercise."
+              ],
+              [
+                980,
+                "In this time of crisis I have noticed that we have enough time to give to our family members, friends and think more about the well being of our closed."
+              ],
+              [
+                981,
+                "Lost 15% of my income due to cancellation of an annual event at which I have worked for nearly 25 years."
+              ],
+              [
+                982,
+                "Working from home, using masks every time I go out, specially for basics shopping, pharmacy."
+              ],
+              [
+                983,
+                "It is horrible to have to stay home and not have a social life"
+              ],
+              [
+                984,
+                "I am working from home - my husband has been let go from all of his adjunct teaching jobs and is unemployed."
+              ],
+              [
+                985,
+                "I was constantly on the go and now realize how fortunate i was to travel as much but that I also have a lot to make me happy right here."
+              ],
+              [
+                986,
+                "This is instead of my 3x/wk exercise class at the senior center."
+              ],
+              [
+                987,
+                "I'm speaking with my long distance relatives more, and when things get too dangerous for even grocery trips, we've got about three months worth of dry goods, and got a victory garden going."
+              ],
+              [
+                988,
+                "Emotionally I seem to be dealing with it just fine, but with a lot of concern."
+              ],
+              [
+                989,
+                "Stress of working a full time job as well as teaching my young children from home."
+              ],
+              [
+                990,
+                "It's lovely spending even more time with family."
+              ],
+              [
+                991,
+                "Spending more quality time with pets; spending more time in remote visits with family who are geographically distant; working remotely means less commute time; eating better because access to junk food is reduced."
+              ],
+              [
+                992,
+                "This is hard because I live alone."
+              ],
+              [
+                993,
+                "But I have family support so Im not that bad."
+              ],
+              [
+                994,
+                "On-line shopping for perishables is nearly impossible - delivery dates are days away or nonexistent, and orders show up 1/4 fulfilled."
+              ],
+              [
+                995,
+                "She is 74, quarantined at home and I am nervous for her."
+              ],
+              [
+                996,
+                "But before that, I cancelled social events, called before going to the doctor, and avoided social gatherings."
+              ],
+              [
+                997,
+                "I hope humanity learns the lesson, set other priorities."
+              ],
+              [
+                998,
+                "I'm helping connect people to resources."
+              ],
+              [
+                999,
+                "I'm obviously prevented from doing certain things."
+              ],
+              [
+                1000,
+                "As a retired school librarian, my finances are okay, as of now."
+              ]
+            ],
+            "update_status": "Success"
+          },
+          "start_time": 1731697371.403433,
+          "end_time": 1731697371.487091,
+          "error": null,
+          "children": [],
+          "node_name": "SQL_Connection_Input",
+          "parent_id": "",
+          "id": "28e798ca-3894-4807-bc46-94700232c4e0",
+          "function": "fetch_sentences",
+          "system_metrics": {}
+        }
+      ],
+      "cached_run_id": null,
+      "cached_flow_run_id": null,
+      "logs": {
+        "stdout": "",
+        "stderr": ""
+      },
+      "system_metrics": {
+        "duration": 0.086034
+      },
+      "result": {
+        "sentences": [
+          [
+            976,
+            "I am also still forced to work."
+          ],
+          [
+            977,
+            "Like millions of folks, to circulate about in your home basically 24/7 is tough mentally and emotionally."
+          ],
+          [
+            978,
+            "We also have time to conference together as a group and hang out a bit that way, especially being so far apart."
+          ],
+          [
+            979,
+            "Trying to stay healthy, supplementing with vitamins, and getting more excercise."
+          ],
+          [
+            980,
+            "In this time of crisis I have noticed that we have enough time to give to our family members, friends and think more about the well being of our closed."
+          ],
+          [
+            981,
+            "Lost 15% of my income due to cancellation of an annual event at which I have worked for nearly 25 years."
+          ],
+          [
+            982,
+            "Working from home, using masks every time I go out, specially for basics shopping, pharmacy."
+          ],
+          [
+            983,
+            "It is horrible to have to stay home and not have a social life"
+          ],
+          [
+            984,
+            "I am working from home - my husband has been let go from all of his adjunct teaching jobs and is unemployed."
+          ],
+          [
+            985,
+            "I was constantly on the go and now realize how fortunate i was to travel as much but that I also have a lot to make me happy right here."
+          ],
+          [
+            986,
+            "This is instead of my 3x/wk exercise class at the senior center."
+          ],
+          [
+            987,
+            "I'm speaking with my long distance relatives more, and when things get too dangerous for even grocery trips, we've got about three months worth of dry goods, and got a victory garden going."
+          ],
+          [
+            988,
+            "Emotionally I seem to be dealing with it just fine, but with a lot of concern."
+          ],
+          [
+            989,
+            "Stress of working a full time job as well as teaching my young children from home."
+          ],
+          [
+            990,
+            "It's lovely spending even more time with family."
+          ],
+          [
+            991,
+            "Spending more quality time with pets; spending more time in remote visits with family who are geographically distant; working remotely means less commute time; eating better because access to junk food is reduced."
+          ],
+          [
+            992,
+            "This is hard because I live alone."
+          ],
+          [
+            993,
+            "But I have family support so Im not that bad."
+          ],
+          [
+            994,
+            "On-line shopping for perishables is nearly impossible - delivery dates are days away or nonexistent, and orders show up 1/4 fulfilled."
+          ],
+          [
+            995,
+            "She is 74, quarantined at home and I am nervous for her."
+          ],
+          [
+            996,
+            "But before that, I cancelled social events, called before going to the doctor, and avoided social gatherings."
+          ],
+          [
+            997,
+            "I hope humanity learns the lesson, set other priorities."
+          ],
+          [
+            998,
+            "I'm helping connect people to resources."
+          ],
+          [
+            999,
+            "I'm obviously prevented from doing certain things."
+          ],
+          [
+            1000,
+            "As a retired school librarian, my finances are okay, as of now."
+          ]
+        ],
+        "update_status": "Success"
+      },
+      "message_format": "basic"
+    },
+    {
+      "node": "summarize_text_content",
+      "flow_run_id": "5c222b2c-4b04-4c7c-9fe1-5a34853260dd",
+      "run_id": "5c222b2c-4b04-4c7c-9fe1-5a34853260dd_summarize_text_content_0",
+      "status": "Completed",
+      "inputs": {
+        "temperature": 0.0,
+        "top_p": 0.3,
+        "stop": [],
+        "max_tokens": 1000,
+        "response_format": {
+          "type": "text"
+        },
+        "presence_penalty": 0.3,
+        "frequency_penalty": 0.1,
+        "deployment_name": "gpt-4o",
+        "sentences": [
+          [
+            976,
+            "I am also still forced to work."
+          ],
+          [
+            977,
+            "Like millions of folks, to circulate about in your home basically 24/7 is tough mentally and emotionally."
+          ],
+          [
+            978,
+            "We also have time to conference together as a group and hang out a bit that way, especially being so far apart."
+          ],
+          [
+            979,
+            "Trying to stay healthy, supplementing with vitamins, and getting more excercise."
+          ],
+          [
+            980,
+            "In this time of crisis I have noticed that we have enough time to give to our family members, friends and think more about the well being of our closed."
+          ],
+          [
+            981,
+            "Lost 15% of my income due to cancellation of an annual event at which I have worked for nearly 25 years."
+          ],
+          [
+            982,
+            "Working from home, using masks every time I go out, specially for basics shopping, pharmacy."
+          ],
+          [
+            983,
+            "It is horrible to have to stay home and not have a social life"
+          ],
+          [
+            984,
+            "I am working from home - my husband has been let go from all of his adjunct teaching jobs and is unemployed."
+          ],
+          [
+            985,
+            "I was constantly on the go and now realize how fortunate i was to travel as much but that I also have a lot to make me happy right here."
+          ],
+          [
+            986,
+            "This is instead of my 3x/wk exercise class at the senior center."
+          ],
+          [
+            987,
+            "I'm speaking with my long distance relatives more, and when things get too dangerous for even grocery trips, we've got about three months worth of dry goods, and got a victory garden going."
+          ],
+          [
+            988,
+            "Emotionally I seem to be dealing with it just fine, but with a lot of concern."
+          ],
+          [
+            989,
+            "Stress of working a full time job as well as teaching my young children from home."
+          ],
+          [
+            990,
+            "It's lovely spending even more time with family."
+          ],
+          [
+            991,
+            "Spending more quality time with pets; spending more time in remote visits with family who are geographically distant; working remotely means less commute time; eating better because access to junk food is reduced."
+          ],
+          [
+            992,
+            "This is hard because I live alone."
+          ],
+          [
+            993,
+            "But I have family support so Im not that bad."
+          ],
+          [
+            994,
+            "On-line shopping for perishables is nearly impossible - delivery dates are days away or nonexistent, and orders show up 1/4 fulfilled."
+          ],
+          [
+            995,
+            "She is 74, quarantined at home and I am nervous for her."
+          ],
+          [
+            996,
+            "But before that, I cancelled social events, called before going to the doctor, and avoided social gatherings."
+          ],
+          [
+            997,
+            "I hope humanity learns the lesson, set other priorities."
+          ],
+          [
+            998,
+            "I'm helping connect people to resources."
+          ],
+          [
+            999,
+            "I'm obviously prevented from doing certain things."
+          ],
+          [
+            1000,
+            "As a retired school librarian, my finances are okay, as of now."
+          ]
+        ]
+      },
+      "output": "[\n  {\n    \"Sentence_ID\": \"976\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"977\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"978\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"979\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"980\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"981\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"982\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"983\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"984\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"985\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"986\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"987\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"988\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"989\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"990\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"991\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"992\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"993\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"994\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"995\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"996\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"997\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"998\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"999\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"1000\",\n    \"LLM_Sentiment_Label\": 0\n  }]",
+      "metrics": null,
+      "error": null,
+      "parent_run_id": "5c222b2c-4b04-4c7c-9fe1-5a34853260dd_0",
+      "start_time": "2024-11-15T19:02:51.490837Z",
+      "end_time": "2024-11-15T19:02:58.259149Z",
+      "index": 0,
+      "api_calls": [
+        {
+          "name": "AzureOpenAI.chat",
+          "type": "Function",
+          "inputs": {
+            "prompt": "system:\nuser:\n[\n{% for id, sentence in sentences %}\n  {\n    \"Sentence_ID\": \"{{ id }}\",\n    \"Sentence\": \"{{ sentence | replace('\"', '\\\\\"') }}\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"{{ sentence | replace('\"', '\\\\\"') }}\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  }{% if not loop.last %},{% endif %}\n{% endfor %}\n]\nassistant: \nPlease output the results in the following format strictly without any extra comments. The sentiment categories are Positive (1), Neutral (0), Negative (-1), please only output the integer value of the categories, without text.\n[\n{% for id, sentence in sentences %}\n  {\n    \"Sentence_ID\": \"{{ id }}\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  }{% if not loop.last %},{% endif %}\n{% endfor %}\n]",
+            "temperature": 0.0,
+            "top_p": 0.3,
+            "stop": [],
+            "max_tokens": 1000,
+            "response_format": {
+              "type": "text"
+            },
+            "presence_penalty": 0.3,
+            "frequency_penalty": 0.1,
+            "deployment_name": "gpt-4o",
+            "sentences": [
+              [
+                976,
+                "I am also still forced to work."
+              ],
+              [
+                977,
+                "Like millions of folks, to circulate about in your home basically 24/7 is tough mentally and emotionally."
+              ],
+              [
+                978,
+                "We also have time to conference together as a group and hang out a bit that way, especially being so far apart."
+              ],
+              [
+                979,
+                "Trying to stay healthy, supplementing with vitamins, and getting more excercise."
+              ],
+              [
+                980,
+                "In this time of crisis I have noticed that we have enough time to give to our family members, friends and think more about the well being of our closed."
+              ],
+              [
+                981,
+                "Lost 15% of my income due to cancellation of an annual event at which I have worked for nearly 25 years."
+              ],
+              [
+                982,
+                "Working from home, using masks every time I go out, specially for basics shopping, pharmacy."
+              ],
+              [
+                983,
+                "It is horrible to have to stay home and not have a social life"
+              ],
+              [
+                984,
+                "I am working from home - my husband has been let go from all of his adjunct teaching jobs and is unemployed."
+              ],
+              [
+                985,
+                "I was constantly on the go and now realize how fortunate i was to travel as much but that I also have a lot to make me happy right here."
+              ],
+              [
+                986,
+                "This is instead of my 3x/wk exercise class at the senior center."
+              ],
+              [
+                987,
+                "I'm speaking with my long distance relatives more, and when things get too dangerous for even grocery trips, we've got about three months worth of dry goods, and got a victory garden going."
+              ],
+              [
+                988,
+                "Emotionally I seem to be dealing with it just fine, but with a lot of concern."
+              ],
+              [
+                989,
+                "Stress of working a full time job as well as teaching my young children from home."
+              ],
+              [
+                990,
+                "It's lovely spending even more time with family."
+              ],
+              [
+                991,
+                "Spending more quality time with pets; spending more time in remote visits with family who are geographically distant; working remotely means less commute time; eating better because access to junk food is reduced."
+              ],
+              [
+                992,
+                "This is hard because I live alone."
+              ],
+              [
+                993,
+                "But I have family support so Im not that bad."
+              ],
+              [
+                994,
+                "On-line shopping for perishables is nearly impossible - delivery dates are days away or nonexistent, and orders show up 1/4 fulfilled."
+              ],
+              [
+                995,
+                "She is 74, quarantined at home and I am nervous for her."
+              ],
+              [
+                996,
+                "But before that, I cancelled social events, called before going to the doctor, and avoided social gatherings."
+              ],
+              [
+                997,
+                "I hope humanity learns the lesson, set other priorities."
+              ],
+              [
+                998,
+                "I'm helping connect people to resources."
+              ],
+              [
+                999,
+                "I'm obviously prevented from doing certain things."
+              ],
+              [
+                1000,
+                "As a retired school librarian, my finances are okay, as of now."
+              ]
+            ]
+          },
+          "output": "[\n  {\n    \"Sentence_ID\": \"976\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"977\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"978\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"979\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"980\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"981\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"982\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"983\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"984\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"985\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"986\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"987\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"988\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"989\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"990\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"991\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"992\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"993\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"994\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"995\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"996\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"997\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"998\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"999\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"1000\",\n    \"LLM_Sentiment_Label\": 0\n  }]",
+          "start_time": 1731697371.491073,
+          "end_time": 1731697378.254007,
+          "error": null,
+          "children": [
+            {
+              "name": "openai_chat",
+              "type": "LLM",
+              "inputs": {
+                "model": "gpt-4o",
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": ""
+                  },
+                  {
+                    "role": "user",
+                    "content": "[\n  {\n    \"Sentence_ID\": \"976\",\n    \"Sentence\": \"I am also still forced to work.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"I am also still forced to work.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"977\",\n    \"Sentence\": \"Like millions of folks, to circulate about in your home basically 24/7 is tough mentally and emotionally.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"Like millions of folks, to circulate about in your home basically 24/7 is tough mentally and emotionally.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"978\",\n    \"Sentence\": \"We also have time to conference together as a group and hang out a bit that way, especially being so far apart.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"We also have time to conference together as a group and hang out a bit that way, especially being so far apart.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"979\",\n    \"Sentence\": \"Trying to stay healthy, supplementing with vitamins, and getting more excercise.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"Trying to stay healthy, supplementing with vitamins, and getting more excercise.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"980\",\n    \"Sentence\": \"In this time of crisis I have noticed that we have enough time to give to our family members, friends and think more about the well being of our closed.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"In this time of crisis I have noticed that we have enough time to give to our family members, friends and think more about the well being of our closed.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"981\",\n    \"Sentence\": \"Lost 15% of my income due to cancellation of an annual event at which I have worked for nearly 25 years.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"Lost 15% of my income due to cancellation of an annual event at which I have worked for nearly 25 years.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"982\",\n    \"Sentence\": \"Working from home, using masks every time I go out, specially for basics shopping, pharmacy.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"Working from home, using masks every time I go out, specially for basics shopping, pharmacy.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"983\",\n    \"Sentence\": \"It is horrible to have to stay home and not have a social life\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"It is horrible to have to stay home and not have a social life\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"984\",\n    \"Sentence\": \"I am working from home - my husband has been let go from all of his adjunct teaching jobs and is unemployed.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"I am working from home - my husband has been let go from all of his adjunct teaching jobs and is unemployed.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"985\",\n    \"Sentence\": \"I was constantly on the go and now realize how fortunate i was to travel as much but that I also have a lot to make me happy right here.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"I was constantly on the go and now realize how fortunate i was to travel as much but that I also have a lot to make me happy right here.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"986\",\n    \"Sentence\": \"This is instead of my 3x/wk exercise class at the senior center.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"This is instead of my 3x/wk exercise class at the senior center.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"987\",\n    \"Sentence\": \"I'm speaking with my long distance relatives more, and when things get too dangerous for even grocery trips, we've got about three months worth of dry goods, and got a victory garden going.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"I'm speaking with my long distance relatives more, and when things get too dangerous for even grocery trips, we've got about three months worth of dry goods, and got a victory garden going.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"988\",\n    \"Sentence\": \"Emotionally I seem to be dealing with it just fine, but with a lot of concern.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"Emotionally I seem to be dealing with it just fine, but with a lot of concern.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"989\",\n    \"Sentence\": \"Stress of working a full time job as well as teaching my young children from home.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"Stress of working a full time job as well as teaching my young children from home.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"990\",\n    \"Sentence\": \"It's lovely spending even more time with family.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"It's lovely spending even more time with family.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"991\",\n    \"Sentence\": \"Spending more quality time with pets; spending more time in remote visits with family who are geographically distant; working remotely means less commute time; eating better because access to junk food is reduced.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"Spending more quality time with pets; spending more time in remote visits with family who are geographically distant; working remotely means less commute time; eating better because access to junk food is reduced.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"992\",\n    \"Sentence\": \"This is hard because I live alone.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"This is hard because I live alone.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"993\",\n    \"Sentence\": \"But I have family support so Im not that bad.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"But I have family support so Im not that bad.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"994\",\n    \"Sentence\": \"On-line shopping for perishables is nearly impossible - delivery dates are days away or nonexistent, and orders show up 1/4 fulfilled.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"On-line shopping for perishables is nearly impossible - delivery dates are days away or nonexistent, and orders show up 1/4 fulfilled.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"995\",\n    \"Sentence\": \"She is 74, quarantined at home and I am nervous for her.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"She is 74, quarantined at home and I am nervous for her.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"996\",\n    \"Sentence\": \"But before that, I cancelled social events, called before going to the doctor, and avoided social gatherings.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"But before that, I cancelled social events, called before going to the doctor, and avoided social gatherings.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"997\",\n    \"Sentence\": \"I hope humanity learns the lesson, set other priorities.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"I hope humanity learns the lesson, set other priorities.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"998\",\n    \"Sentence\": \"I'm helping connect people to resources.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"I'm helping connect people to resources.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"999\",\n    \"Sentence\": \"I'm obviously prevented from doing certain things.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"I'm obviously prevented from doing certain things.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"1000\",\n    \"Sentence\": \"As a retired school librarian, my finances are okay, as of now.\",\n    \"Prompt\": \"Analyze the sentiment of the following sentence, considering it is a comment from the covid period. The analysis aims to understand people's sentiment during the covid period. The sentiment categories are Positive (1), Neutral (0), Negative (-1).\",\n    \"User_Comment\": \"As a retired school librarian, my finances are okay, as of now.\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  }]"
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Please output the results in the following format strictly without any extra comments. The sentiment categories are Positive (1), Neutral (0), Negative (-1), please only output the integer value of the categories, without text.\n[\n  {\n    \"Sentence_ID\": \"976\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"977\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"978\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"979\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"980\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"981\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"982\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"983\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"984\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"985\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"986\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"987\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"988\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"989\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"990\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"991\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"992\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"993\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"994\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"995\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"996\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"997\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"998\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"999\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  },  {\n    \"Sentence_ID\": \"1000\",\n    \"LLM_Sentiment_Label\": \"sentiment label here\" (integer value only, no extra text)\n  }]"
+                  }
+                ],
+                "temperature": 0.0,
+                "top_p": 0.3,
+                "n": 1,
+                "stream": false,
+                "presence_penalty": 0.3,
+                "frequency_penalty": 0.1,
+                "user": "",
+                "max_tokens": 1000,
+                "response_format": {
+                  "type": "text"
+                }
+              },
+              "output": {
+                "id": "chatcmpl-ATvshr4Ks8OsKcubuwK4OpUhHmO3j",
+                "choices": [
+                  {
+                    "finish_reason": "stop",
+                    "index": 0,
+                    "logprobs": null,
+                    "message": {
+                      "content": "[\n  {\n    \"Sentence_ID\": \"976\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"977\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"978\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"979\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"980\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"981\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"982\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"983\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"984\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"985\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"986\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"987\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"988\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"989\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"990\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"991\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"992\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"993\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"994\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"995\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"996\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"997\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"998\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"999\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"1000\",\n    \"LLM_Sentiment_Label\": 0\n  }]",
+                      "role": "assistant",
+                      "function_call": null,
+                      "tool_calls": null
+                    },
+                    "content_filter_results": {
+                      "hate": {
+                        "filtered": false,
+                        "severity": "safe"
+                      },
+                      "protected_material_code": {
+                        "filtered": false,
+                        "detected": false
+                      },
+                      "protected_material_text": {
+                        "filtered": false,
+                        "detected": false
+                      },
+                      "self_harm": {
+                        "filtered": false,
+                        "severity": "safe"
+                      },
+                      "sexual": {
+                        "filtered": false,
+                        "severity": "safe"
+                      },
+                      "violence": {
+                        "filtered": false,
+                        "severity": "safe"
+                      }
+                    }
+                  }
+                ],
+                "created": 1731697371,
+                "model": "gpt-4o-2024-05-13",
+                "object": "chat.completion",
+                "system_fingerprint": "fp_04751d0b65",
+                "usage": {
+                  "completion_tokens": 602,
+                  "prompt_tokens": 4416,
+                  "total_tokens": 5018
+                },
+                "prompt_filter_results": [
+                  {
+                    "prompt_index": 0,
+                    "content_filter_results": {
+                      "hate": {
+                        "filtered": false,
+                        "severity": "safe"
+                      },
+                      "jailbreak": {
+                        "filtered": false,
+                        "detected": false
+                      },
+                      "self_harm": {
+                        "filtered": false,
+                        "severity": "safe"
+                      },
+                      "sexual": {
+                        "filtered": false,
+                        "severity": "safe"
+                      },
+                      "violence": {
+                        "filtered": false,
+                        "severity": "safe"
+                      }
+                    }
+                  }
+                ]
+              },
+              "start_time": 1731697371.51079,
+              "end_time": 1731697378.253609,
+              "error": null,
+              "children": [],
+              "node_name": null,
+              "parent_id": "8adc8b1b-e895-4bef-9ef4-3fb7a5606dd6",
+              "id": "5e19d20c-743f-4980-a75c-82b91ed08b07",
+              "function": "openai.resources.chat.completions.Completions.create",
+              "system_metrics": {
+                "completion_tokens": 602,
+                "prompt_tokens": 4416,
+                "total_tokens": 5018
+              }
+            }
+          ],
+          "node_name": "summarize_text_content",
+          "parent_id": "",
+          "id": "8adc8b1b-e895-4bef-9ef4-3fb7a5606dd6",
+          "function": "AzureOpenAI.chat",
+          "system_metrics": {
+            "completion_tokens": 602,
+            "prompt_tokens": 4416,
+            "total_tokens": 5018
+          }
+        }
+      ],
+      "cached_run_id": null,
+      "cached_flow_run_id": null,
+      "logs": {
+        "stdout": "",
+        "stderr": ""
+      },
+      "system_metrics": {
+        "completion_tokens": 602,
+        "prompt_tokens": 4416,
+        "total_tokens": 5018,
+        "duration": 6.768312
+      },
+      "result": "[\n  {\n    \"Sentence_ID\": \"976\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"977\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"978\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"979\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"980\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"981\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"982\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"983\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"984\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"985\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"986\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"987\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"988\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"989\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"990\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"991\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"992\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"993\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"994\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"995\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"996\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"997\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"998\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"999\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"1000\",\n    \"LLM_Sentiment_Label\": 0\n  }]",
+      "message_format": "basic"
+    },
+    {
+      "node": "output_results_to_mysql",
+      "flow_run_id": "5c222b2c-4b04-4c7c-9fe1-5a34853260dd",
+      "run_id": "5c222b2c-4b04-4c7c-9fe1-5a34853260dd_output_results_to_mysql_0",
+      "status": "Completed",
+      "inputs": {
+        "data": "[\n  {\n    \"Sentence_ID\": \"976\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"977\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"978\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"979\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"980\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"981\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"982\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"983\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"984\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"985\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"986\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"987\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"988\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"989\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"990\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"991\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"992\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"993\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"994\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"995\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"996\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"997\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"998\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"999\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"1000\",\n    \"LLM_Sentiment_Label\": 0\n  }]"
+      },
+      "output": {
+        "update_status": "Success"
+      },
+      "metrics": null,
+      "error": null,
+      "parent_run_id": "5c222b2c-4b04-4c7c-9fe1-5a34853260dd_0",
+      "start_time": "2024-11-15T19:02:58.260324Z",
+      "end_time": "2024-11-15T19:02:58.405726Z",
+      "index": 0,
+      "api_calls": [
+        {
+          "name": "update_llm_sentiment_labels",
+          "type": "Function",
+          "inputs": {
+            "data": "[\n  {\n    \"Sentence_ID\": \"976\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"977\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"978\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"979\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"980\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"981\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"982\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"983\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"984\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"985\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"986\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"987\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"988\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"989\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"990\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"991\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"992\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"993\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"994\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"995\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"996\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"997\",\n    \"LLM_Sentiment_Label\": 0\n  },  {\n    \"Sentence_ID\": \"998\",\n    \"LLM_Sentiment_Label\": 1\n  },  {\n    \"Sentence_ID\": \"999\",\n    \"LLM_Sentiment_Label\": -1\n  },  {\n    \"Sentence_ID\": \"1000\",\n    \"LLM_Sentiment_Label\": 0\n  }]"
+          },
+          "output": {
+            "update_status": "Success"
+          },
+          "start_time": 1731697378.260476,
+          "end_time": 1731697378.405023,
+          "error": null,
+          "children": [],
+          "node_name": "output_results_to_mysql",
+          "parent_id": "",
+          "id": "bea402fb-6c1e-4260-ad2a-7b3ecc44b5ef",
+          "function": "update_llm_sentiment_labels",
+          "system_metrics": {}
+        }
+      ],
+      "cached_run_id": null,
+      "cached_flow_run_id": null,
+      "logs": {
+        "stdout": "[2024-11-15T19:02:58+0000] Connection established successfully.\n[2024-11-15T19:02:58+0000] Updated 1590 rows with LLM sentiment labels.\n[2024-11-15T19:02:58+0000] Connection closed.\n",
+        "stderr": ""
+      },
+      "system_metrics": {
+        "duration": 0.145402
+      },
+      "result": {
+        "update_status": "Success"
+      },
+      "message_format": "basic"
+    }
+  ]
+}

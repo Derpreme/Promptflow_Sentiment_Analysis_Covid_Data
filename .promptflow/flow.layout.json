@@ -1,0 +1,40 @@
+{
+  "orientation": "Vertical",
+  "nodeLayouts": {
+    "inputs": {
+      "x": 290,
+      "y": 42,
+      "index": -1
+    },
+    "outputs": {
+      "x": 220,
+      "y": 578,
+      "index": -1
+    },
+    "SQL_Connection_Input": {
+      "x": 140,
+      "y": 176,
+      "index": 0
+    },
+    "summarize_text_content": {
+      "x": 153.199951171875,
+      "y": 280.8000030517578,
+      "index": 1
+    },
+    "output_results_to_mysql": {
+      "x": 140,
+      "y": 444,
+      "index": 2
+    }
+  },
+  "viewport": {
+    "transformMatrix": [
+      1,
+      0,
+      0,
+      1,
+      -13.47222900390625,
+      301.1481132396846
+    ]
+  }
+}

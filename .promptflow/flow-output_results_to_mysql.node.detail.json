@@ -1,0 +1,57 @@
+{
+  "flow_runs": [],
+  "node_runs": [
+    {
+      "node": "output_results_to_mysql",
+      "flow_run_id": "02d2fa32-cb21-421e-a31b-4da89b63c53a",
+      "run_id": "02d2fa32-cb21-421e-a31b-4da89b63c53a_output_results_to_mysql_5d8976a6-f0dd-4d41-be0a-6b2fe389b55c",
+      "status": "Completed",
+      "inputs": {
+        "data": "[\n  {\n    \"Sentence_ID\": \"1\",\n    \"LLM_Sentiment_Label\": \"Neutral (0)\" \n  },  {\n    \"Sentence_ID\": \"2\",\n    \"LLM_Sentiment_Label\": \"Negative (-1)\" \n  },  {\n    \"Sentence_ID\": \"3\",\n    \"LLM_Sentiment_Label\": \"Negative (-1)\" \n  },  {\n    \"Sentence_ID\": \"4\",\n    \"LLM_Sentiment_Label\": \"Neutral (0)\" \n  },  {\n    \"Sentence_ID\": \"5\",\n    \"LLM_Sentiment_Label\": \"Neutral (0)\" \n  },  {\n    \"Sentence_ID\": \"6\",\n    \"LLM_Sentiment_Label\": \"Negative (-1)\" \n  },  {\n    \"Sentence_ID\": \"7\",\n    \"LLM_Sentiment_Label\": \"Negative (-1)\" \n  },  {\n    \"Sentence_ID\": \"8\",\n    \"LLM_Sentiment_Label\": \"Negative (-1)\" \n  },  {\n    \"Sentence_ID\": \"9\",\n    \"LLM_Sentiment_Label\": \"Neutral (0)\" \n  },  {\n    \"Sentence_ID\": \"10\",\n    \"LLM_Sentiment_Label\": \"Negative (-1)\" \n  }]"
+      },
+      "output": {
+        "update_status": "Failed due to error: Incorrect integer value: 'Neutral (0)' for column 'LLM_Sentiment_Label_GPT4o' at row 1"
+      },
+      "metrics": null,
+      "error": null,
+      "parent_run_id": "02d2fa32-cb21-421e-a31b-4da89b63c53a",
+      "start_time": "2024-09-09T21:49:29.191036Z",
+      "end_time": "2024-09-09T21:49:29.262244Z",
+      "index": null,
+      "api_calls": [
+        {
+          "name": "update_llm_sentiment_labels",
+          "type": "Function",
+          "inputs": {
+            "data": "[\n  {\n    \"Sentence_ID\": \"1\",\n    \"LLM_Sentiment_Label\": \"Neutral (0)\" \n  },  {\n    \"Sentence_ID\": \"2\",\n    \"LLM_Sentiment_Label\": \"Negative (-1)\" \n  },  {\n    \"Sentence_ID\": \"3\",\n    \"LLM_Sentiment_Label\": \"Negative (-1)\" \n  },  {\n    \"Sentence_ID\": \"4\",\n    \"LLM_Sentiment_Label\": \"Neutral (0)\" \n  },  {\n    \"Sentence_ID\": \"5\",\n    \"LLM_Sentiment_Label\": \"Neutral (0)\" \n  },  {\n    \"Sentence_ID\": \"6\",\n    \"LLM_Sentiment_Label\": \"Negative (-1)\" \n  },  {\n    \"Sentence_ID\": \"7\",\n    \"LLM_Sentiment_Label\": \"Negative (-1)\" \n  },  {\n    \"Sentence_ID\": \"8\",\n    \"LLM_Sentiment_Label\": \"Negative (-1)\" \n  },  {\n    \"Sentence_ID\": \"9\",\n    \"LLM_Sentiment_Label\": \"Neutral (0)\" \n  },  {\n    \"Sentence_ID\": \"10\",\n    \"LLM_Sentiment_Label\": \"Negative (-1)\" \n  }]"
+          },
+          "output": {
+            "update_status": "Failed due to error: Incorrect integer value: 'Neutral (0)' for column 'LLM_Sentiment_Label_GPT4o' at row 1"
+          },
+          "start_time": 1725918569.19122,
+          "end_time": 1725918569.26155,
+          "error": null,
+          "children": [],
+          "node_name": "output_results_to_mysql",
+          "parent_id": "",
+          "id": "56cad953-8d2e-41ab-a2cb-1a3159a18fb1",
+          "function": "update_llm_sentiment_labels",
+          "system_metrics": {}
+        }
+      ],
+      "cached_run_id": null,
+      "cached_flow_run_id": null,
+      "logs": {
+        "stdout": "[2024-09-09T21:49:29+0000] Connection established successfully.\n[2024-09-09T21:49:29+0000] Error message: Incorrect integer value: 'Neutral (0)' for column 'LLM_Sentiment_Label_GPT4o' at row 1\n[2024-09-09T21:49:29+0000] Connection closed.\n",
+        "stderr": ""
+      },
+      "system_metrics": {
+        "duration": 0.071208
+      },
+      "result": {
+        "update_status": "Failed due to error: Incorrect integer value: 'Neutral (0)' for column 'LLM_Sentiment_Label_GPT4o' at row 1"
+      },
+      "message_format": "basic"
+    }
+  ]
+}

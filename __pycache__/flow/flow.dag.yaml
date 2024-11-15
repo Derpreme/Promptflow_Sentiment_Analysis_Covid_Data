@@ -1,0 +1,47 @@
+id: web_classification
+name: Web Classification
+environment:
+  python_requirements_txt: requirements.txt
+inputs:
+  query:
+    type: string
+    default: SELECT Question3 FROM dbo.survey1
+outputs:
+  output_str:
+    type: string
+    reference: ${summarize_text_content.output}
+nodes:
+- name: SQL_Connection_Input
+  type: python
+  source:
+    type: code
+    path: SQL_Connection_Input.py
+  inputs:
+    query: ${inputs.query}
+  use_variants: false
+- name: summarize_text_content
+  type: llm
+  source:
+    type: code
+    path: summarize_text_content.jinja2
+  inputs:
+    temperature: 0.5
+    top_p: 0.3
+    stop: []
+    max_tokens: 100
+    response_format:
+      type: text
+    presence_penalty: 0.3
+    frequency_penalty: 0.1
+    data: ${SQL_Connection_Input.output}
+  provider: Serverless
+  connection: Meta-Llama-3-70B-Instruct-akjzi-serverless
+  api: chat
+  module: promptflow.tools.openai
+  use_variants: false
+- name: llm_node_58nh
+  type: llm
+  source:
+    type: code
+    path: summarize_text_content.jinja2
+  inputs: {}

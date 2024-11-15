@@ -1,0 +1,8 @@
+$schema: 
+  https://azuremlschemas.azureedge.net/promptflow/latest/ServerlessConnection.schema.json
+type: serverless
+name: Meta-Llama-3-70B-Instruct-akjzi-serverless
+module: promptflow.connections
+api_base: 
+  https://Meta-Llama-3-70B-Instruct-akjzi-serverless.eastus2.inference.ai.azure.com/
+api_key: ${env:META-LLAMA-3-70B-INSTRUCT-AKJZI-SERVERLESS_API_KEY}

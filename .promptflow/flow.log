@@ -1,0 +1,11 @@
+2024-11-15 19:02:51 +0000 2448642 execution.flow     INFO     Start executing nodes in thread pool mode.
+2024-11-15 19:02:51 +0000 2448642 execution.flow     INFO     Start to run 3 nodes with concurrency level 16.
+2024-11-15 19:02:51 +0000 2448642 execution.flow     INFO     Executing node SQL_Connection_Input. node run id: 5c222b2c-4b04-4c7c-9fe1-5a34853260dd_SQL_Connection_Input_0
+2024-11-15 19:02:51 +0000 2448642 execution.flow     INFO     Node SQL_Connection_Input completes.
+2024-11-15 19:02:51 +0000 2448642 execution.flow     INFO     Executing node summarize_text_content. node run id: 5c222b2c-4b04-4c7c-9fe1-5a34853260dd_summarize_text_content_0
+2024-11-15 19:02:58 +0000 2448642 execution.flow     INFO     Node summarize_text_content completes.
+2024-11-15 19:02:58 +0000 2448642 execution.flow     INFO     Executing node output_results_to_mysql. node run id: 5c222b2c-4b04-4c7c-9fe1-5a34853260dd_output_results_to_mysql_0
+2024-11-15 19:02:58 +0000 2448642 execution.flow     INFO     [output_results_to_mysql in line 0 (index starts from 0)] stdout> Connection established successfully.
+2024-11-15 19:02:58 +0000 2448642 execution.flow     INFO     [output_results_to_mysql in line 0 (index starts from 0)] stdout> Updated 1590 rows with LLM sentiment labels.
+2024-11-15 19:02:58 +0000 2448642 execution.flow     INFO     [output_results_to_mysql in line 0 (index starts from 0)] stdout> Connection closed.
+2024-11-15 19:02:58 +0000 2448642 execution.flow     INFO     Node output_results_to_mysql completes.

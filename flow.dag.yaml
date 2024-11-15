@@ -1,0 +1,52 @@
+id: web_classification
+name: Web Classification
+environment:
+  python_requirements_txt: requirements.txt
+inputs:
+  dummy_input:
+    type: string
+    default: Covid Sentiment Analysis GPT4o
+outputs:
+  results:
+    type: string
+    reference: ${output_results_to_mysql.output}
+nodes:
+- name: SQL_Connection_Input
+  type: python
+  source:
+    type: code
+    path: SQL_Connection_Input.py
+  inputs:
+    dummy_input: ${inputs.dummy_input}
+  outputs:
+    update_status: ${SQL_Connection_Input.update_status}
+    sentences: ${SQL_Connection_Input.sentences}
+  use_variants: false
+- name: summarize_text_content
+  type: llm
+  source:
+    type: code
+    path: summarize_text_content.jinja2
+  inputs:
+    temperature: 0
+    top_p: 0.3
+    stop: []
+    max_tokens: 1000
+    response_format:
+      type: text
+    presence_penalty: 0.3
+    frequency_penalty: 0.1
+    deployment_name: gpt-4o
+    sentences: ${SQL_Connection_Input.output.sentences}
+  connection: resource06174064901025_aoai
+  api: chat
+  use_variants: false
+- name: output_results_to_mysql
+  type: python
+  source:
+    type: code
+    path: llm_results_to_mysql.py
+  inputs:
+    data: ${summarize_text_content.output}
+  outputs:
+    output: ${output_results_to_mysql.output}

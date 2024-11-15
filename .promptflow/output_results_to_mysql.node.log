@@ -1,0 +1,5 @@
+2024-09-09 21:49:29 +0000 1836014 execution.flow     INFO     Executing node output_results_to_mysql. node run id: 02d2fa32-cb21-421e-a31b-4da89b63c53a_output_results_to_mysql_5d8976a6-f0dd-4d41-be0a-6b2fe389b55c
+2024-09-09 21:49:29 +0000 1836014 execution.flow     INFO     [output_results_to_mysql in line None (index starts from 0)] stdout> Connection established successfully.
+2024-09-09 21:49:29 +0000 1836014 execution.flow     INFO     [output_results_to_mysql in line None (index starts from 0)] stdout> Error message: Incorrect integer value: 'Neutral (0)' for column 'LLM_Sentiment_Label_GPT4o' at row 1
+2024-09-09 21:49:29 +0000 1836014 execution.flow     INFO     [output_results_to_mysql in line None (index starts from 0)] stdout> Connection closed.
+2024-09-09 21:49:29 +0000 1836014 execution.flow     INFO     Node output_results_to_mysql completes.

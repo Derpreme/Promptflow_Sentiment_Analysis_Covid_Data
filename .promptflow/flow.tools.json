@@ -1,0 +1,53 @@
+{
+  "package": {},
+  "code": {
+    "summarize_text_content.jinja2": {
+      "type": "llm",
+      "inputs": {
+        "sentences": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "summarize_text_content.jinja2"
+    },
+    "SQL_Connection_Input.py": {
+      "type": "python",
+      "inputs": {
+        "dummy_input": {
+          "type": [
+            "object"
+          ]
+        }
+      },
+      "source": "SQL_Connection_Input.py",
+      "function": "fetch_sentences",
+      "input_schema": {
+        "dummy_input": "string"
+      },
+      "output_schema": {
+        "sentences": "list",
+        "update_status": "string"
+      }
+    },
+    "llm_results_to_mysql.py": {
+      "type": "python",
+      "inputs": {
+        "data": {
+          "type": [
+            "object"
+          ]
+        }
+      },
+      "source": "llm_results_to_mysql.py",
+      "function": "update_llm_sentiment_labels",
+      "input_schema": {
+        "data": "string"
+      },
+      "output_schema": {
+        "update_status": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "nodes": {
+    "SQL_Connection_Input": {
+      "variant_0": {
+        "inputs": {
+          "data": []
+        },
+        "inputsValue": {}
+      }
+    },
+    "summarize_text_content": {
+      "variant_0": {
+        "inputs": {
+          "questions": [],
+          "command": [],
+          "sql_results": []
+        },
+        "inputsValue": {}
+      }
+    },
+    "output_results_to_mysql": {
+      "variant_0": {
+        "inputs": {
+          "data": []
+        }
+      }
+    }
+  }
+}

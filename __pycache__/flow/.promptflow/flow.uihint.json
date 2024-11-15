@@ -1,0 +1,24 @@
+{
+  "nodes": {
+    "SQL_Connection_Input": {
+      "variant_0": {
+        "inputs": {},
+        "inputsValue": {}
+      }
+    },
+    "summarize_text_content": {
+      "variant_0": {
+        "inputs": {},
+        "inputsValue": {}
+      }
+    },
+    "llm_node_58nh": {
+      "variant_0": {
+        "inputs": {
+          "response_format": [],
+          "data": []
+        }
+      }
+    }
+  }
+}
